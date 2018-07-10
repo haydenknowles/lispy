@@ -3,10 +3,6 @@
 
 #include <editline/readline.h>
 
-#ifdef __linux__
-#include <editline/history.h>
-#endif
-
 int main(int argc, char** argv) {
 
     /* print version and exit information */
