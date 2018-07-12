@@ -1,5 +1,3 @@
-#                                               -*- Autoconf -*-
-# Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
 AC_INIT([lispy], [0.0.0.0.1], [hayden.knowles@live.com])
@@ -12,11 +10,11 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_CC_C99
 
 # Checks for libraries.
-AC_SEARCH_LIBS([readline], [edit])
-AC_SEARCH_LIBS([add_history], [edit])
+AC_SEARCH_LIBS([readline], [edit],, AC_MSG_ERROR["could not find function readline()"])
+AC_SEARCH_LIBS([add_history], [edit],, AC_MSG_ERROR["could not find function add_history()"])
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h readline.h])
+AC_CHECK_HEADERS([stdlib.h editline/readline.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 
