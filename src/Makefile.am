@@ -1,2 +1,2 @@
-bin_PROGRAMS = prompt
-prompt_SOURCES = prompt.c mpc.c
+bin_PROGRAMS = parsing
+parsing_SOURCES = parsing.c mpc.c
