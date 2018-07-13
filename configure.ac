@@ -3,7 +3,7 @@ AC_PREREQ([2.69])
 AC_INIT([lispy], [0.0.0.0.1], [hayden.knowles@live.com])
 AM_INIT_AUTOMAKE([foreign -Wall])
 AM_SILENT_RULES([yes])
-AC_CONFIG_SRCDIR([src/prompt.c])
+AC_CONFIG_SRCDIR([src/parsing.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
