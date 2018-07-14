@@ -2,7 +2,7 @@
 .deps
 .DS_Store
 aclocal.m4
-src/parsing
+src/lispy
 src/Makefile
 src/Makefile.in
 Makefile
