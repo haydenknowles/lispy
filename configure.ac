@@ -14,7 +14,7 @@ AC_SEARCH_LIBS([readline], [edit],, AC_MSG_ERROR["could not find function readli
 AC_SEARCH_LIBS([add_history], [edit],, AC_MSG_ERROR["could not find function add_history()"])
 
 # Checks for header files.
-AC_CHECK_HEADERS([editline/readline.h mpc.h])
+AC_CHECK_HEADERS([editline/readline.h mpc.h math.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 
