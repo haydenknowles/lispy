@@ -8,13 +8,13 @@ enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
 
 typedef struct {
     int type;
-    long num;
+    double num;
     int err;
 } lval;
 
  lval eval_op(lval x, char* op, lval y);
  lval eval(mpc_ast_t* t);
- lval lval_num(long x);
+ lval lval_num(double x);
  lval lval_err(int x);
  void lval_print(lval v);
  void lval_println(lval v);
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     // define the language
     mpca_lang(MPCA_LANG_DEFAULT,
     "                                                   \
-    number   : /-?[0-9]+/ ;                             \
+    number   : /-?[0-9]+(\\.[0-9]+)?/ ;                             \
     operator : '+' | '-' | '*' | '/' | '%' | '^' ;      \
     expr     : <number> | '(' <operator> <expr>+ ')' ;  \
     lispy    : /^/ <operator> <expr>+ /$/ ;             \
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     if (strstr(t->tag, "number")) {
         // return atoi(t->contents);
         errno = 0;
-        long x = strtol(t->contents, NULL, 10);
+        double x = strtod(t->contents, NULL);
         return errno != ERANGE ? lval_num(x) : lval_err(LERR_BAD_NUM);
     }
 
@@ -94,11 +94,11 @@ int main(int argc, char** argv) {
 lval eval_op(lval x, char* op, lval y) {
     if (x.type == LVAL_ERR) { return x; }
     if (y.type == LVAL_ERR) { return y; }
-
+    
     if (strcmp(op, "+") == 0) { return lval_num(x.num + y.num); }
     if (strcmp(op, "-") == 0) { return lval_num(x.num - y.num); }
     if (strcmp(op, "*") == 0) { return lval_num(x.num * y.num); }
-    if (strcmp(op, "%") == 0) { return lval_num(x.num % y.num); }
+    if (strcmp(op, "%") == 0) { return lval_num(fmod(x.num, y.num)); }
     if (strcmp(op, "^") == 0) { return lval_num(pow(x.num, y.num)); }
     
     if (strcmp(op, "/") == 0) {
@@ -107,7 +107,7 @@ lval eval_op(lval x, char* op, lval y) {
     return lval_err(LERR_BAD_OP);
 }
 
- lval lval_num(long x) {
+ lval lval_num(double x) {
     lval v;
     v.type = LVAL_NUM;
     v.num = x;
@@ -123,7 +123,7 @@ lval eval_op(lval x, char* op, lval y) {
 
  void lval_print(lval v) {
     switch (v.type) {
-        case LVAL_NUM: printf("%li", v.num); break;
+        case LVAL_NUM: printf("%.2f", v.num); break;
         case LVAL_ERR:
             if (v.err == LERR_DIV_ZERO) {
                 printf("Error: Division by zero!");
